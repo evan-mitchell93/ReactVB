@@ -1,5 +1,7 @@
-import { StatusBar } from 'expo-status-bar';
+
 import { StyleSheet, Text, View,Image } from 'react-native';
+import StatList from './components/StatList';
+import ResultCard from './components/ResultCard';
 
 
 const SOCSLOGO = require('./assets/images/logo.png');
@@ -7,9 +9,8 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Image source={SOCSLOGO} />
-      <Text>Match Results Will Go Here</Text>
-      <Text>Stats grid here</Text>
-      <Text>Graphs for players or team here</Text>
+      <ResultCard />
+      <StatList />
     </View>
   );
 }
@@ -19,6 +20,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
+    marginTop: '15px',
   },
 
 
