@@ -3,6 +3,8 @@ import * as SQLite from 'expo-sqlite';
 export const db = SQLite.openDatabaseSync('vb.db');
 
 export async function createTables() {
+    //create first table for match results
+    //team played, sets won and lost
     await db.execAsync(`
       PRAGMA journal_mode = WAL;
       CREATE TABLE IF NOT EXISTS results (
@@ -17,7 +19,7 @@ export async function createTables() {
     }; 
 
 
-
+//get first row from the table will
 export function queryFirstResult() {
     const val = db.getFirstSync('SELECT * FROM results;');
     console.log(val);
