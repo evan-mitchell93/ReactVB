@@ -12,6 +12,17 @@ export async function createTables() {
       opponent TEXT NOT NULL,
       setsWon INTEGER NOT NULL,
       setsLost INTEGER NOT NULL);
+
+      CREATE TABLE IF NOT EXISTS players (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      last_name TEXT NOT NULL,
+      first_name TEXT NOT NULL,
+      jersey_number TEXT NOT NULL);
+
+      CREATE TABLE IF NOT EXISTS individualStats (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      match_id INTEGER,
+      )
       `);
     }; 
 
