@@ -1,5 +1,6 @@
 import { useEffect,useState } from 'react';
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
+import ResultCard from './components/ResultCard';
 import { useDrizzleStudio } from 'expo-drizzle-studio-plugin';
 import * as VBDB from './vbdb';
 
@@ -24,7 +25,7 @@ export default function App() {
     <View style={styles.container}>
         <Image source={SOCSLOGO} />
         {/* Will make this show opp and score later */}
-        <Text>SOCS VS {result.opponent}</Text>
+        <ResultCard res={result} />
         <Pressable onPress={testQuery}>
           <Text>Press me</Text>
         </Pressable>

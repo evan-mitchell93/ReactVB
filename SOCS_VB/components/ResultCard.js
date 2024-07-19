@@ -1,11 +1,12 @@
 import {React,Text,View,Image,StyleSheet} from "react-native";
 
-export default function ResultCard(){
+export default function ResultCard(props){
     return(
         <View style={resultStyles.content}>
-            <Text>  SOCS  </Text>
-            <Text>VS</Text>
-            <Text>  LCA  </Text>
+            <Text>SOCS</Text>
+            <Text>{props.res.opponent}</Text>
+            <Text>{props.res.setsWon}</Text>
+            <Text>{props.res.setsLost}</Text>
         </View>
     );
 }
