@@ -1,4 +1,6 @@
-import {React,Text,View,Image,StyleSheet} from "react-native";
+import {React,Text,View,Image,StyleSheet, Dimensions} from "react-native";
+
+const {width} = Dimensions.get('window');
 
 export default function ResultCard(props){
     return(
@@ -20,11 +22,10 @@ const resultStyles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         backgroundColor: '#fff',
-        padding: "10px",
-        marginTop: 20,
-        marginBottom: 10,
-        maxHeight: 100,
-        maxWidth: '50%',
+        marginTop: 10,
+        width: width,
+        margin: 0,
+        height: 200,
         shadowColor: 'black',
         shadowOpacity: 1,
         elevation: 3,

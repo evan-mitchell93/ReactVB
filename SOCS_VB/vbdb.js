@@ -12,9 +12,6 @@ export async function createTables() {
       opponent TEXT NOT NULL,
       setsWon INTEGER NOT NULL,
       setsLost INTEGER NOT NULL);
-
-      INSERT INTO results (opponent,setsWon,setsLost) VALUES ('CAM',2,3);
-      INSERT INTO results (opponent, setsWon,setsLost) VALUES ('LCA',0,3);
       `);
     }; 
 
@@ -25,3 +22,9 @@ export function queryFirstResult() {
     console.log(val);
     return val;
   };
+
+export function queryAllResults() {
+    const resultList = db.getAllSync('SELECT * FROM results;');
+    console.log(resultList);
+    return resultList;
+}
