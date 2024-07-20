@@ -11,7 +11,7 @@ import * as FS from 'expo-file-system';
 const {width} = Dimensions.get('window');
 //create initial db table and insert two rowss
 VBDB.createTables();
-const allRows = VBDB.queryAllResults();
+const allRows = VBDB.getAllResults();
 
 //Seven Oaks Crest logo
 const SOCSLOGO = require('./assets/images/logo.png');
@@ -74,7 +74,7 @@ export default function App() {
     } else{
       //when viewable switches, load teamstats from that match
       const data = VBDB.getTeamStats(viewableItems[0].item.id);
-      if(data.length != 0){
+      if(data!= null && data.length != 0){
         setMatchData(data[0]);
       } else {
         setMatchData({pointsplayed: 0})

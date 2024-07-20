@@ -50,12 +50,25 @@ export function queryFirstResult() {
 //get all results might update to include seasons
 export function queryAllResults() {
     const resultList = db.getAllSync('SELECT * FROM results;');
-    console.log(resultList);
     return resultList;
 }
 
 //get teamstats by specific match result id
 export function getTeamStats(resultId){
+    try{
     const teamStats = db.getAllSync('SELECT * FROM teamstats WHERE resultid = ?',resultId);
     return teamStats;
+    } catch (error) {
+      console.error(error)
+      return null;
+    }
+}
+
+export function insertResult(opp,setsW,setsL){
+  try {
+    db.runSync(`INSERT INTO results (opponent,setsWon,setsLost) VALUES (?,?,?);`,opp,setsW,setsL);
+    console.log("Inserted record");
+  } catch (error) {
+    console.log("Error inserting", error);
+  }
 }
