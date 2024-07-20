@@ -1,0 +1,12 @@
+Things I want to focus on soon
+
+1. Make a form for adding results and teamstats manually
+    Make this form a modal that shows when a button is clicked next
+    to the results flat list
+
+2. Make forms for updating/adjusting stats or results.
+
+3. Figure out why the csv file upload is not reading
+
+4. Create some sort of data visualization probably for the 
+   most recent 3 matches or so.

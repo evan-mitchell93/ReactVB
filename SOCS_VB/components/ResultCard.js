@@ -25,7 +25,7 @@ const resultStyles = StyleSheet.create({
         marginTop: 10,
         width: width,
         margin: 0,
-        height: 200,
+        height: '90%',
         shadowColor: 'black',
         shadowOpacity: 1,
         elevation: 3,

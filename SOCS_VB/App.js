@@ -1,6 +1,7 @@
 import { useCallback, useEffect,useState } from 'react';
 import { StyleSheet, Text, View, Image, Pressable,ScrollView,FlatList, Dimensions} from 'react-native';
 import ResultCard from './components/ResultCard';
+import ResultForm from './components/ResultForm';
 import { useDrizzleStudio } from 'expo-drizzle-studio-plugin';
 import * as VBDB from './vbdb';
 import * as DocPicker from 'expo-document-picker';
@@ -96,7 +97,6 @@ export default function App() {
         decelerationRate={"fast"}
         snapToInterval={width}
         snapToAlignment={"center"}
-
         data={allRows}
         renderItem={({item})=>
           <ResultCard res={item}/>
@@ -115,6 +115,7 @@ export default function App() {
           <Text>Upload Match Data</Text>
         </Pressable> */}
         <Text>{matchData.pointsplayed}</Text>
+        <ResultForm />
     </View>
   );
 }
