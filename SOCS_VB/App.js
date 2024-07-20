@@ -17,28 +17,30 @@ const SOCSLOGO = require('./assets/images/logo.png');
 
 export default function App() {
   //state for current selected result
-  const [result, setResults] = useState({id:0,opponent:'Test',setsWon:0,setsLost:0});
-  const [dt, setDT] = useState(0);
+  const [matchData, setMatchData] = useState([{pointsplayed: 0}]);
   const [fileURI, setFileUri] = useState(null);
   const [csvData, setCsvData] = useState([]);
-  const [filePicked,setFilePicked] = useState(false);
 
   useDrizzleStudio(VBDB.db);
 
 
   const pickCSV = async () => {
     try {
+      //pick csv from device files
       const result = await DocPicker.getDocumentAsync({type: 'text/csv',copyToCacheDirectory: true,});
+
       if (result.canceled === false) {
+        //set our uri to the chosen file
         setFileUri(result.assets[0].uri);
+        //read data from file
         const fileData = await readFile(fileURI);
         if(fileData) {
           const parsedData = Papa.parse(fileData);
           if (parsedData.errors.length > 0){
             console.error('error parsing csv',parsedData.errors);
           } else{
+            //set our csv data to then eventually save to db.
             setCsvData(parsedData.data);
-            setFilePicked(true);
           }
         }  else {
           console.error("Failed to read file data",fileData);
@@ -49,9 +51,11 @@ export default function App() {
     }
   };
 
+  
   const readFile = async (uri) => {
     console.log("Reading file");
     try {
+      //read the file - this is where we are running into issues accessing the file
       const response = await FS.readAsStringAsync(uri);
       console.log(response);
       return response
@@ -67,8 +71,13 @@ export default function App() {
     if (viewableItems.length == 0){
       console.log('empty');
     } else{
-      console.log(viewableItems);
-      setDT(viewableItems[0].item.id)
+      //when viewable switches, load teamstats from that match
+      const data = VBDB.getTeamStats(viewableItems[0].item.id);
+      if(data.length != 0){
+        setMatchData(data[0]);
+      } else {
+        setMatchData({pointsplayed: 0})
+      }
     }
   });
 
@@ -101,10 +110,12 @@ export default function App() {
         }}
         >
         </FlatList>
+
+        {/* reading csv not working at the moment}
         <Pressable onPress={pickCSV}>
           <Text>Upload Match Data</Text>
-        </Pressable>
-        <Text>{dt}</Text>
+        </Pressable> */}
+        <Text>{matchData.pointsplayed}</Text>
     </View>
   );
 }
