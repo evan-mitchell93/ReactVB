@@ -48,7 +48,7 @@ export function queryFirstResult() {
   };
 
 //get all results might update to include seasons
-export function queryAllResults() {
+export function getAllResults() {
     const resultList = db.getAllSync('SELECT * FROM results;');
     return resultList;
 }

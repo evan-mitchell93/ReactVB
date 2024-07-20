@@ -28,7 +28,7 @@ export default function App() {
   const pickCSV = async () => {
     try {
       //pick csv from device files
-      const result = await DocPicker.getDocumentAsync({type: 'text/csv',copyToCacheDirectory: true,});
+      const result = await DocPicker.getDocumentAsync({type: "*/*",copyToCacheDirectory: true, base64:false, });
 
       if (result.canceled === false) {
         //set our uri to the chosen file
@@ -42,6 +42,7 @@ export default function App() {
           } else{
             //set our csv data to then eventually save to db.
             setCsvData(parsedData.data);
+            console.log(csvData);
           }
         }  else {
           console.error("Failed to read file data",fileData);
@@ -57,8 +58,7 @@ export default function App() {
     console.log("Reading file");
     try {
       //read the file - this is where we are running into issues accessing the file
-      const response = await FS.readAsStringAsync(uri);
-      console.log(response);
+      const response = await FS.readAsStringAsync(uri,{encoding:"unicode"});
       return response
     } catch (error){
       console.error("Reading",error)
@@ -109,11 +109,9 @@ export default function App() {
         }}
         >
         </FlatList>
-
-        {/* reading csv not working at the moment}
         <Pressable onPress={pickCSV}>
           <Text>Upload Match Data</Text>
-        </Pressable> */}
+        </Pressable>
         <Text>{matchData.pointsplayed}</Text>
         <ResultForm />
     </View>
