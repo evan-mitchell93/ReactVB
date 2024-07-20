@@ -92,12 +92,11 @@ export default function App() {
         style={styles.flist}
         backgroundColor='black'
         horizontal={true}
-        showsVerticalScrollIndicator={false}
         pagingEnabled={true}
         decelerationRate={"fast"}
         snapToInterval={width}
         snapToAlignment={"center"}
-        scrollEnabled={true}
+
         data={allRows}
         renderItem={({item})=>
           <ResultCard res={item}/>
