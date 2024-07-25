@@ -64,6 +64,15 @@ export function getTeamStats(resultId){
     }
 }
 
+//add team stats from file
+export function insertTeamStats(data,resultId){
+  db.runSync(`INSERT INTO teamstats (resultid,pointsplayed,plusminus,scored,scoredminuserrors,
+    swings,kills,hiterr,hitpct,blk,blkasst,blkerr,asst,dig,ballhandleerr,srvreccount,
+    srvrecerr,srvmade,srvace,srverr) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);`,resultId,
+  data[1],data[2],data[3],data[4],data[5],data[6],data[7],data[8],data[9],data[10],
+  data[11],data[12],data[13],data[14],data[15],data[16],data[17],data[18],data[19],data[20]);
+}
+
 export function insertResult(opp,setsW,setsL){
   try {
     db.runSync(`INSERT INTO results (opponent,setsWon,setsLost) VALUES (?,?,?);`,opp,setsW,setsL);

@@ -18,6 +18,7 @@ const SOCSLOGO = require('./assets/images/logo.png');
 
 export default function App() {
   //state for current selected result
+  const [currentResult, setCurrentResult] = useState(0);
   const [matchData, setMatchData] = useState([{pointsplayed: 0}]);
   const [fileURI, setFileUri] = useState(null);
   const [csvData, setCsvData] = useState([]);
@@ -41,8 +42,8 @@ export default function App() {
             console.error('error parsing csv',parsedData.errors);
           } else{
             //set our csv data to then eventually save to db.
-            setCsvData(parsedData.data);
-            console.log(csvData);
+            await setCsvData(parsedData.data);
+            VBDB.insertTeamStats(csvData[csvData.length-2],currentResult);
           }
         }  else {
           console.error("Failed to read file data",fileData);
@@ -53,7 +54,6 @@ export default function App() {
     }
   };
 
-  
   const readFile = async (uri) => {
     console.log("Reading file");
     try {
@@ -72,6 +72,8 @@ export default function App() {
     if (viewableItems.length == 0){
       console.log('empty');
     } else{
+      //when viewable switches save the resultId for use later
+      setCurrentResult(viewableItems[0].item.id)
       //when viewable switches, load teamstats from that match
       const data = VBDB.getTeamStats(viewableItems[0].item.id);
       if(data!= null && data.length != 0){
