@@ -81,3 +81,35 @@ export function insertResult(opp,setsW,setsL){
     console.log("Error inserting", error);
   }
 }
+
+//Methods for getting team stats by filter type
+
+//Serving Filter
+export function getTeamServingStats(resultId) {
+  try {
+    db.runSync('SELECT srvmade,srvace,srverr FROM teamstats WHERE resultid = ?',resultId);
+    console.log("Team serving accessed");
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+}
+
+//Serve Recieve Filter
+export function getTeamSRStats(resultId) {
+  try{
+    db.runSync('SELECT servreccount, servrecerr FROM teamstats WHERE resultid = ?',resultId);
+    console.log("Team serv rec accessed");
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+}
+
+//Attacking Filter
+export function getTeamAttacking(resultId) {
+  try{
+    db.runSync('SELECT swings, kills,hiterr,hitpct FROM teamstats WHERE resultid = ?',resultId);
+    console.log("Team attacking accessed");
+  } catch(error){
+    console.error("Error: ", error);
+  }
+}

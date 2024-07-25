@@ -7,11 +7,11 @@ import * as VBDB from './vbdb';
 import * as DocPicker from 'expo-document-picker';
 import Papa from 'papaparse';
 import * as FS from 'expo-file-system';
+import StatList from './components/StatList';
 
 const {width} = Dimensions.get('window');
 //create initial db table and insert two rowss
 VBDB.createTables();
-const allRows = VBDB.getAllResults();
 
 //Seven Oaks Crest logo
 const SOCSLOGO = require('./assets/images/logo.png');
@@ -22,6 +22,7 @@ export default function App() {
   const [matchData, setMatchData] = useState([{pointsplayed: 0}]);
   const [fileURI, setFileUri] = useState(null);
   const [csvData, setCsvData] = useState([]);
+  const [allRows, setAllRows] = useState(VBDB.getAllResults());
 
   useDrizzleStudio(VBDB.db);
 
@@ -111,11 +112,12 @@ export default function App() {
         }}
         >
         </FlatList>
+        <StatList />
         <Pressable onPress={pickCSV}>
           <Text>Upload Match Data</Text>
         </Pressable>
         <Text>{matchData.pointsplayed}</Text>
-        <ResultForm />
+        <ResultForm allResults={allRows} setAllResults={setAllRows} />
     </View>
   );
 }

@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@expo/metro-runtime": "~3.2.1",
+    "@react-native-picker/picker": "^2.7.7",
     "expo": "~51.0.21",
     "expo-document-picker": "~12.0.2",
     "expo-drizzle-studio-plugin": "^0.0.2",
+    "expo-file-system": "~17.0.1",
     "expo-sqlite": "~14.0.4",
     "expo-status-bar": "~1.12.1",
     "i": "^0.3.7",
@@ -22,8 +24,7 @@
     "react-native": "0.74.3",
     "react-native-csv": "^0.2.0",
     "react-native-document-picker": "^9.3.0",
-    "react-native-web": "~0.19.10",
-    "expo-file-system": "~17.0.1"
+    "react-native-web": "~0.19.10"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
