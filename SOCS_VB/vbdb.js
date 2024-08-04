@@ -3,7 +3,7 @@ import * as SQLite from 'expo-sqlite';
 export const db = SQLite.openDatabaseSync('vb.db');
 
 export async function createTables() {
-    
+    //Creating db tables
     await db.execAsync(`
       PRAGMA journal_mode = WAL;
       CREATE TABLE IF NOT EXISTS results (
@@ -40,14 +40,14 @@ export async function createTables() {
     }; 
 
 
-//get first row from the table will
+//Get first row from the match results (used for testing right now)
 export function queryFirstResult() {
     const val = db.getFirstSync('SELECT * FROM results;');
     console.log(val);
     return val;
   };
 
-//get all results might update to include seasons
+//Return all match results for UI
 export function getAllResults() {
     const resultList = db.getAllSync('SELECT * FROM results;');
     return resultList;
@@ -64,7 +64,7 @@ export function getTeamStats(resultId){
     }
 }
 
-//add team stats from file
+//Adding Team stats (called when uploading csv file)
 export function insertTeamStats(data,resultId){
   db.runSync(`INSERT INTO teamstats (resultid,pointsplayed,plusminus,scored,scoredminuserrors,
     swings,kills,hiterr,hitpct,blk,blkasst,blkerr,asst,dig,ballhandleerr,srvreccount,
@@ -73,6 +73,7 @@ export function insertTeamStats(data,resultId){
   data[11],data[12],data[13],data[14],data[15],data[16],data[17],data[18],data[19],data[20]);
 }
 
+//Adding new match results (called when user submits form)
 export function insertResult(opp,setsW,setsL){
   try {
     db.runSync(`INSERT INTO results (opponent,setsWon,setsLost) VALUES (?,?,?);`,opp,setsW,setsL);
@@ -82,9 +83,13 @@ export function insertResult(opp,setsW,setsL){
   }
 }
 
-//Methods for getting team stats by filter type
+//
+//
+//Methods for getting team stats by filter type//
+//
+//
 
-//Serving Filter
+//Serving Filter returns team Serves made, serving aces and serve errors
 export function getTeamServingStats(resultId) {
   try {
     db.runSync('SELECT srvmade,srvace,srverr FROM teamstats WHERE resultid = ?',resultId);
@@ -94,7 +99,7 @@ export function getTeamServingStats(resultId) {
   }
 }
 
-//Serve Recieve Filter
+//Serve Recieve Filter returns team serve recieve count, and serve rec errors
 export function getTeamSRStats(resultId) {
   try{
     db.runSync('SELECT servreccount, servrecerr FROM teamstats WHERE resultid = ?',resultId);
@@ -104,7 +109,7 @@ export function getTeamSRStats(resultId) {
   }
 }
 
-//Attacking Filter
+//Attacking Filter returns team total swings, kills, errors and percentage
 export function getTeamAttacking(resultId) {
   try{
     db.runSync('SELECT swings, kills,hiterr,hitpct FROM teamstats WHERE resultid = ?',resultId);

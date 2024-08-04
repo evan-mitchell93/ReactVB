@@ -1,4 +1,4 @@
-import { TextInput,Text, SafeAreaView, View, StyleSheet, TouchableOpacity } from "react-native";
+import { TextInput,Text, SafeAreaView, View,Keyboard, StyleSheet, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
 import { useState } from "react";
 import * as VBDB from '../vbdb';
 
@@ -13,35 +13,41 @@ export default function ResultForm(props) {
         onChangeOpp("");
         onChangeSetsW('0');
         onChangeSetsL('0');
+        props.setModalVis(false);
     }
     return(
         <SafeAreaView>
-            <View style={formstyles.inputContainer}>
-                <TextInput
-                    style={formstyles.textInput}
-                    onChangeText={onChangeOpp}
-                    value={oppText}
-                    placeholder="Opponent Abbr."
-                />
-            </View>
-            <View style={formstyles.inputContainer}>
-                <TextInput
-                    style={formstyles.textInput}
-                    onChangeText={onChangeSetsW}
-                    value={setsW}
-                    placeholder="0"
-                    keyboardType="numeric"
-                />
-            </View>
-            <View style={formstyles.inputContainer}>
-                <TextInput
-                    style={formstyles.textInput}
-                    onChangeText={onChangeSetsL}
-                    value={setsL}
-                    placeholder="0"
-                    keyboardType="numeric"
-                />
-            </View>
+            
+                <View style={formstyles.inputContainer}>
+                    <TextInput
+                        style={formstyles.textInput}
+                        onChangeText={onChangeOpp}
+                        value={oppText}
+                        placeholder="Opponent Abbr."
+                    />
+                </View>
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <View style={formstyles.inputContainer}>
+                        <TextInput
+                            style={formstyles.textInput}
+                            onChangeText={onChangeSetsW}
+                            value={setsW}
+                            placeholder="0"
+                            keyboardType="numeric"
+                        />
+                    </View>
+                </TouchableWithoutFeedback>
+            <   TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <View style={formstyles.inputContainer}>
+                        <TextInput
+                            style={formstyles.textInput}
+                            onChangeText={onChangeSetsL}
+                            value={setsL}
+                            placeholder="0"
+                            keyboardType="numeric"
+                        />
+                    </View>
+                </TouchableWithoutFeedback>
             <View style={formstyles.inputContainer}>
                 <TouchableOpacity
                     style={formstyles.addButton}

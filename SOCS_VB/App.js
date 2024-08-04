@@ -1,5 +1,5 @@
-import { useCallback, useEffect,useState } from 'react';
-import { StyleSheet, Text, View, Image, Pressable,ScrollView,FlatList, Dimensions} from 'react-native';
+import { useCallback,useState } from 'react';
+import { StyleSheet, Text, View, Image, Pressable,Modal,FlatList, Dimensions} from 'react-native';
 import ResultCard from './components/ResultCard';
 import ResultForm from './components/ResultForm';
 import { useDrizzleStudio } from 'expo-drizzle-studio-plugin';
@@ -17,56 +17,17 @@ VBDB.createTables();
 const SOCSLOGO = require('./assets/images/logo.png');
 
 export default function App() {
-  //state for current selected result
+  //Modal control state
+  const [modalVisible, setModalVisible] = useState(false);
+  //Currently selected match result will be passed to components
   const [currentResult, setCurrentResult] = useState(0);
+
   const [matchData, setMatchData] = useState([{pointsplayed: 0}]);
-  const [fileURI, setFileUri] = useState(null);
-  const [csvData, setCsvData] = useState([]);
+
+
   const [allRows, setAllRows] = useState(VBDB.getAllResults());
 
   useDrizzleStudio(VBDB.db);
-
-
-  const pickCSV = async () => {
-    try {
-      //pick csv from device files
-      const result = await DocPicker.getDocumentAsync({type: "*/*",copyToCacheDirectory: true, base64:false, });
-
-      if (result.canceled === false) {
-        //set our uri to the chosen file
-        setFileUri(result.assets[0].uri);
-        //read data from file
-        const fileData = await readFile(fileURI);
-        if(fileData) {
-          const parsedData = Papa.parse(fileData);
-          if (parsedData.errors.length > 0){
-            console.error('error parsing csv',parsedData.errors);
-          } else{
-            //set our csv data to then eventually save to db.
-            await setCsvData(parsedData.data);
-            VBDB.insertTeamStats(csvData[csvData.length-2],currentResult);
-          }
-        }  else {
-          console.error("Failed to read file data",fileData);
-        }
-      }
-    } catch (error) {
-      console.error("Error picking document", error);
-    }
-  };
-
-  const readFile = async (uri) => {
-    console.log("Reading file");
-    try {
-      //read the file - this is where we are running into issues accessing the file
-      const response = await FS.readAsStringAsync(uri,{encoding:"unicode"});
-      return response
-    } catch (error){
-      console.error("Reading",error)
-      return null;
-    }
-  };
-
 
   const onViewableItemsChanged = useCallback(({viewableItems}) => {
     //replace with code to fill in data from current match displayed.
@@ -90,8 +51,6 @@ export default function App() {
         <View style={styles.logo} >
           <Image source={SOCSLOGO}/>
         </View>
-        {/* Will make this show opp and score later */}
-
         <FlatList
         style={styles.flist}
         backgroundColor='black'
@@ -112,12 +71,24 @@ export default function App() {
         }}
         >
         </FlatList>
-        <StatList />
-        <Pressable onPress={pickCSV}>
-          <Text>Upload Match Data</Text>
+        <StatList resultId = {currentResult} />
+        <Modal
+          animationType='slide'
+          transparent={false}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible)
+          }}
+        >
+          <ResultForm allResults={allRows} setAllResults={setAllRows} setModalVis={setModalVisible} />  
+        </Modal>
+        <Pressable
+        onPress={() => {
+          setModalVisible(true);
+        }}>
+          <Text>Add Result</Text>
         </Pressable>
-        <Text>{matchData.pointsplayed}</Text>
-        <ResultForm allResults={allRows} setAllResults={setAllRows} />
+
     </View>
   );
 }
