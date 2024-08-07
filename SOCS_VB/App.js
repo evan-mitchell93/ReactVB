@@ -2,11 +2,9 @@ import { useCallback,useState } from 'react';
 import { StyleSheet, Text, View, Image, Pressable,Modal,FlatList, Dimensions} from 'react-native';
 import ResultCard from './components/ResultCard';
 import ResultForm from './components/ResultForm';
+import FileManager from './components/FileManager';
 import { useDrizzleStudio } from 'expo-drizzle-studio-plugin';
 import * as VBDB from './vbdb';
-import * as DocPicker from 'expo-document-picker';
-import Papa from 'papaparse';
-import * as FS from 'expo-file-system';
 import StatList from './components/StatList';
 
 const {width} = Dimensions.get('window');
@@ -32,7 +30,6 @@ export default function App() {
   const onViewableItemsChanged = useCallback(({viewableItems}) => {
     //replace with code to fill in data from current match displayed.
     if (viewableItems.length == 0){
-      console.log('empty');
     } else{
       //when viewable switches save the resultId for use later
       setCurrentResult(viewableItems[0].item.id)
@@ -71,6 +68,7 @@ export default function App() {
         }}
         >
         </FlatList>
+        <FileManager resultId={currentResult} />
         <StatList resultId = {currentResult} />
         <Modal
           animationType='slide'
@@ -97,7 +95,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    marginTop: '15px',
+    marginTop: '10px',
     minWidth: 50,
   },
 

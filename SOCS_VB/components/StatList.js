@@ -1,10 +1,11 @@
 import {React, View, Text, ScrollView, StyleSheet,Pressable} from "react-native";
-import * as VBDB from '../vbdb';
+import {getTeamDataByFilter} from '../vbdb';
 import * as DocPicker from 'expo-document-picker';
 import Papa from 'papaparse';
 import * as FS from 'expo-file-system';
 import {Picker} from '@react-native-picker/picker';
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { DataTable } from "react-native-paper";
 
 export default function StatList(props) {
     //State for keeping track of filter
@@ -12,68 +13,57 @@ export default function StatList(props) {
     //Team totals for selected match
     const [selectedFilter, setFilter] = useState('Serving');
     const [playerData,setPlayerData] = useState([]);
-    const [teamData, setTeamData] = useState([]);
-    const [fileURI, setFileUri] = useState(null);
-    const [csvData, setCsvData] = useState([]);
+    const [teamStats, setTeamStats] = useState([]);
+    const [loaded, setLoaded] = useState(false);
 
-    const uploadCsv = async () => {
-        try {
-          //pick csv from device files
-          const result = await DocPicker.getDocumentAsync({type: "*/*",copyToCacheDirectory: true, base64:false, });
-    
-          if (result.canceled === false) {
-            //set our uri to the chosen file
-            setFileUri(result.assets[0].uri);
-            //read data from file
-            const fileData = await readFile(fileURI);
-            if(fileData) {
-              const parsedData = Papa.parse(fileData);
-              if (parsedData.errors.length > 0){
-                console.error('error parsing csv',parsedData.errors);
-              } else{
-                //set our csv data to then eventually save to db.
-                setCsvData(parsedData.data);
-                VBDB.insertTeamStats(csvData[csvData.length-2],props.resultId);
-              }
-            }  else {
-              console.error("Failed to read file data",fileData);
-            }
-          }
-        } catch (error) {
-          console.error("Error picking document", error);
-        }
-      };
-    
-      const readFile = async (uri) => {
-        console.log("Reading file");
-        try {
-          //read the file - this is where we are running into issues accessing the file
-          const response = await FS.readAsStringAsync(uri,{encoding:"unicode"});
-          return response
-        } catch (error){
-          console.error("Reading",error)
-          return null;
-        }
-      };
-    
-    return (
-        <ScrollView style={listStyles.wrapper}>
-            <Pressable
-            style={listStyles.uploadBtn}
-            onPress={uploadCsv}
-            >
-                <Text style={listStyles.buttonText}>Upload Data</Text>
-            </Pressable>
-            <Picker
-                selectedValue={selectedFilter}
-                onValueChange={(itemValue,itemIndex) => setFilter(itemValue)}
-            >
-                <Picker.Item label="Serving" value="Serving" />
-                <Picker.Item label="Attacking" value="Attacking" />
-                <Picker.Item label="ServeRecv" value="ServeRecv" />
-            </Picker>
-        </ScrollView>
-    );
+    useEffect (() => {
+        setLoaded(true);
+        console.log(teamStats);
+    }, [teamStats]);
+
+    const gatherData = (filter) => {
+        setFilter(filter);
+        setTeamStats(getTeamDataByFilter(props.resultId,filter));
+        setLoaded(false);
+    }
+
+    if(loaded){
+        return (
+            <View style={listStyles.wrapper}>
+                <Picker
+                    style={listStyles.picker}
+                    selectedValue={selectedFilter}
+                    onValueChange={(itemValue,itemIndex) => gatherData(itemValue)}
+                >
+                    <Picker.Item label="Serving" value="Serving" />
+                    <Picker.Item label="Attacking" value="Attacking" />
+                    <Picker.Item label="ServeRecv" value="ServeRecv" />
+                </Picker>
+                <DataTable>
+                    <DataTable.Row>
+                        {Object.entries(teamStats).map(([key,v]) =>{
+                            <DataTable.Cell>{v}</DataTable.Cell>;
+                        })}
+                    </DataTable.Row>
+                </DataTable>
+            </View>
+        );}
+    else {
+        return (
+            <View>
+                <Picker
+                    style={listStyles.picker}
+                    selectedValue={selectedFilter}
+                    onValueChange={(itemValue,itemIndex) => gatherData(itemValue)}
+                >
+                    <Picker.Item label="Serving" value="Serving" />
+                    <Picker.Item label="Attacking" value="Attacking" />
+                    <Picker.Item label="ServeRecv" value="ServeRecv" />
+                </Picker>
+                <Text>Loading Data</Text>
+            </View>
+        )
+    }
 }
 
 const listStyles = StyleSheet.create({
@@ -97,5 +87,9 @@ const listStyles = StyleSheet.create({
     buttonText: {
         color: 'white',
         fontSize: '20',
+    },
+
+    picker: {
+        height: 30,
     }
 });

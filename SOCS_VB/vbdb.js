@@ -92,8 +92,9 @@ export function insertResult(opp,setsW,setsL){
 //Serving Filter returns team Serves made, serving aces and serve errors
 export function getTeamServingStats(resultId) {
   try {
-    db.runSync('SELECT srvmade,srvace,srverr FROM teamstats WHERE resultid = ?',resultId);
-    console.log("Team serving accessed");
+    const res = db.getFirstSync('SELECT srvmade,srvace,srverr FROM teamstats WHERE resultid = ?',resultId);
+    console.log("Team serving accessed",resultId);
+    return res;
   } catch (error) {
     console.error("Error: ", error);
   }
@@ -102,8 +103,9 @@ export function getTeamServingStats(resultId) {
 //Serve Recieve Filter returns team serve recieve count, and serve rec errors
 export function getTeamSRStats(resultId) {
   try{
-    db.runSync('SELECT servreccount, servrecerr FROM teamstats WHERE resultid = ?',resultId);
+    const res =  db.getFirstSync('SELECT srvreccount, srvrecerr FROM teamstats WHERE resultid = ?',resultId);
     console.log("Team serv rec accessed");
+    return res;
   } catch (error) {
     console.error("Error: ", error);
   }
@@ -112,9 +114,21 @@ export function getTeamSRStats(resultId) {
 //Attacking Filter returns team total swings, kills, errors and percentage
 export function getTeamAttacking(resultId) {
   try{
-    db.runSync('SELECT swings, kills,hiterr,hitpct FROM teamstats WHERE resultid = ?',resultId);
+    const res = db.getFirstSync('SELECT swings, kills,hiterr,hitpct FROM teamstats WHERE resultid = ?',resultId);
     console.log("Team attacking accessed");
+    return res;
   } catch(error){
     console.error("Error: ", error);
   }
+}
+
+export function getTeamDataByFilter(resultId, filter){
+
+  if(filter == 'Serving'){
+    return getTeamServingStats(resultId);
+  }
+  else if(filter == 'Attacking'){
+    return getTeamAttacking(resultId);
+  }
+  return null;
 }
