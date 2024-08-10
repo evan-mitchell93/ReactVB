@@ -63,11 +63,12 @@ export default function FileManager(props) {
 const fmStyles = StyleSheet.create({
     comp: {
       height: 35,
+      width:'100%',
     },
 
     uploadBtn: {
         backgroundColor: 'navy',
-        width: '90%',
+        width: '100%',
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center',

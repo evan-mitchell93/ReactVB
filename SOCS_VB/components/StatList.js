@@ -50,16 +50,7 @@ export default function StatList(props) {
         );}
     else {
         return (
-            <View>
-                <Picker
-                    style={listStyles.picker}
-                    selectedValue={selectedFilter}
-                    onValueChange={(itemValue,itemIndex) => gatherData(itemValue)}
-                >
-                    <Picker.Item label="Serving" value="Serving" />
-                    <Picker.Item label="Attacking" value="Attacking" />
-                    <Picker.Item label="ServeRecv" value="ServeRecv" />
-                </Picker>
+            <View style={listStyles.wrapper}>
                 <Text>Loading Data</Text>
             </View>
         )
@@ -69,16 +60,17 @@ export default function StatList(props) {
 const listStyles = StyleSheet.create({
     wrapper: {
         flex: 1,
-        backgroundColor: '#fff',
-        padding: "10px",
+        backgroundColor:'navy',
+        padding: "10",
         shadowColor: '#000',
         shadowRadius: 5,
-        marginTop: '10px',
-        maxHeight: '100px',
+        marginTop: '10',
+        maxHeight:200,
+        width:'100%',
+        backgroundColor:'pink',
     },
     uploadBtn: {
         backgroundColor: 'navy',
-        width: '90%',
         height: '20%',
         justifyContent: 'center',
         alignItems: 'center',
@@ -88,8 +80,6 @@ const listStyles = StyleSheet.create({
         color: 'white',
         fontSize: '20',
     },
-
     picker: {
-        height: 30,
-    }
+    },
 });
