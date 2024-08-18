@@ -50,7 +50,7 @@ export default function App() {
         </View>
         <FlatList
         style={styles.flist}
-        maxHeight={100}
+        maxHeight={125}
         horizontal={true}
         pagingEnabled={true}
         decelerationRate={"fast"}
@@ -95,7 +95,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    marginTop: '10px',
     minWidth: 50,
     justifyContent:'center',
     alignItems: 'center',
@@ -104,11 +103,8 @@ const styles = StyleSheet.create({
   logo: {
     justifyContent:'center',
     alignItems:'center',
-    marginTop: 50,
+    marginTop: 1,
     marginBottom: 5,
   },
-
-  flist: {
-  }
 
 });

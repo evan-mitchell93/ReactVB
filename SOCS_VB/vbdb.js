@@ -14,6 +14,7 @@ export async function createTables() {
       
       CREATE TABLE IF NOT EXISTS teamstats (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
+      player TEXT NOT NULL,
       resultid INTEGER NOT NULL,
       pointsplayed INTEGER,
       plusminus INTEGER,
@@ -66,9 +67,9 @@ export function getTeamStats(resultId){
 
 //Adding Team stats (called when uploading csv file)
 export function insertTeamStats(data,resultId){
-  db.runSync(`INSERT INTO teamstats (resultid,pointsplayed,plusminus,scored,scoredminuserrors,
+  db.runSync(`INSERT INTO teamstats (resultid,player,pointsplayed,plusminus,scored,scoredminuserrors,
     swings,kills,hiterr,hitpct,blk,blkasst,blkerr,asst,dig,ballhandleerr,srvreccount,
-    srvrecerr,srvmade,srvace,srverr) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);`,resultId,
+    srvrecerr,srvmade,srvace,srverr) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);`,resultId,data[0],
   data[1],data[2],data[3],data[4],data[5],data[6],data[7],data[8],data[9],data[10],
   data[11],data[12],data[13],data[14],data[15],data[16],data[17],data[18],data[19],data[20]);
 }
@@ -92,7 +93,7 @@ export function insertResult(opp,setsW,setsL){
 //Serving Filter returns team Serves made, serving aces and serve errors
 export function getTeamServingStats(resultId) {
   try {
-    const res = db.getFirstSync('SELECT srvmade,srvace,srverr FROM teamstats WHERE resultid = ?',resultId);
+    const res = db.getAllSync('SELECT player,srvmade,srvace,srverr FROM teamstats WHERE resultid = ?',resultId);
     console.log("Team serving accessed",resultId);
     return res;
   } catch (error) {
@@ -103,7 +104,7 @@ export function getTeamServingStats(resultId) {
 //Serve Recieve Filter returns team serve recieve count, and serve rec errors
 export function getTeamSRStats(resultId) {
   try{
-    const res =  db.getFirstSync('SELECT srvreccount, srvrecerr FROM teamstats WHERE resultid = ?',resultId);
+    const res =  db.getAllSync('SELECT player,srvreccount, srvrecerr FROM teamstats WHERE resultid = ?',resultId);
     console.log("Team serv rec accessed");
     return res;
   } catch (error) {
@@ -114,7 +115,7 @@ export function getTeamSRStats(resultId) {
 //Attacking Filter returns team total swings, kills, errors and percentage
 export function getTeamAttacking(resultId) {
   try{
-    const res = db.getFirstSync('SELECT swings, kills,hiterr,hitpct FROM teamstats WHERE resultid = ?',resultId);
+    const res = db.getAllSync('SELECT player,swings, kills,hiterr,hitpct FROM teamstats WHERE resultid = ?',resultId);
     console.log("Team attacking accessed");
     return res;
   } catch(error){
@@ -129,6 +130,9 @@ export function getTeamDataByFilter(resultId, filter){
   }
   else if(filter == 'Attacking'){
     return getTeamAttacking(resultId);
+  }
+  else if(filter == 'ServeRecv'){
+    return getTeamSRStats(resultId);
   }
   return null;
 }

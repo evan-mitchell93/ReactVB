@@ -12,13 +12,12 @@ export default function StatList(props) {
     //Will display different stats for all players and
     //Team totals for selected match
     const [selectedFilter, setFilter] = useState('Serving');
-    const [playerData,setPlayerData] = useState([]);
-    const [teamStats, setTeamStats] = useState([]);
+    const [playerData,setPlayerData] = useState([{}]);
+    const [teamStats, setTeamStats] = useState([{"default": 0,"data":1}]);
     const [loaded, setLoaded] = useState(false);
 
     useEffect (() => {
         setLoaded(true);
-        console.log(teamStats);
     }, [teamStats]);
 
     const gatherData = (filter) => {
@@ -29,7 +28,7 @@ export default function StatList(props) {
 
     if(loaded){
         return (
-            <View style={listStyles.wrapper}>
+            <ScrollView style={listStyles.wrapper}>
                 <Picker
                     style={listStyles.picker}
                     selectedValue={selectedFilter}
@@ -40,17 +39,24 @@ export default function StatList(props) {
                     <Picker.Item label="ServeRecv" value="ServeRecv" />
                 </Picker>
                 <DataTable>
-                    <DataTable.Row>
-                        {Object.entries(teamStats).map(([key,v]) =>{
-                            <DataTable.Cell>{v}</DataTable.Cell>;
-                        })}
-                    </DataTable.Row>
+                    <DataTable.Header>
+                        {Object.entries(teamStats[0]).map(([key,value]) => (
+                            <DataTable.Title>{key}</DataTable.Title>
+                        ))}
+                    </DataTable.Header>
+                    {Object.entries(teamStats).map(([pid,pdata]) => (
+                        <DataTable.Row key={pid}>
+                            {Object.entries(pdata).map(([k,v]) =>(
+                                <DataTable.Cell>{v}</DataTable.Cell>
+                            ))}
+                        </DataTable.Row>
+                    ))}
                 </DataTable>
-            </View>
+            </ScrollView>
         );}
     else {
         return (
-            <View style={listStyles.wrapper}>
+            <View style={listStyles.wrapper1}>
                 <Text>Loading Data</Text>
             </View>
         )
@@ -60,21 +66,25 @@ export default function StatList(props) {
 const listStyles = StyleSheet.create({
     wrapper: {
         flex: 1,
-        backgroundColor:'navy',
-        padding: "10",
-        shadowColor: '#000',
-        shadowRadius: 5,
-        marginTop: '10',
-        maxHeight:200,
-        width:'100%',
         backgroundColor:'pink',
+        maxHeight:350,
+        width:'100%',
+    },
+
+    wrapper1: {
+        flex: 1,
+        backgroundColor:"green",
     },
     uploadBtn: {
         backgroundColor: 'navy',
-        height: '20%',
         justifyContent: 'center',
         alignItems: 'center',
     },
+
+    tab: {
+        color:"white",
+    },  
+
 
     buttonText: {
         color: 'white',

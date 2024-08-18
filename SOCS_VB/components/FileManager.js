@@ -26,7 +26,9 @@ export default function FileManager(props) {
               } else{
                 //set our csv data to then eventually save to db.
                 setCsvData(parsedData.data);
-                insertTeamStats(csvData[csvData.length-2],props.resultId);
+                for(let i = 2; i <= csvData.length-2; i++){
+                  insertTeamStats(csvData[i],props.resultId);
+                }
               }
             }  else {
               console.error("Failed to read file data",fileData);
