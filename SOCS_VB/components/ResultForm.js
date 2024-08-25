@@ -9,7 +9,7 @@ export default function ResultForm(props) {
 
     const submitResult = () => {
         VBDB.insertResult(oppText,parseInt(setsW),parseInt(setsL));
-        props.setAllRows = VBDB.getAllResults();
+        props.setAllResults(VBDB.getAllResults());
         onChangeOpp("");
         onChangeSetsW('0');
         onChangeSetsL('0');

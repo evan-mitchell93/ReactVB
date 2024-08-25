@@ -78,7 +78,7 @@ export default function App() {
             setModalVisible(!modalVisible)
           }}
         >
-          <ResultForm allResults={allRows} setAllResults={setAllRows} setModalVis={setModalVisible} />  
+          <ResultForm setAllResults={setAllRows} setModalVis={setModalVisible} />  
         </Modal>
         <Pressable
         onPress={() => {
