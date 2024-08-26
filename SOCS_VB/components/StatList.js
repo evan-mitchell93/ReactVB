@@ -66,7 +66,6 @@ export default function StatList(props) {
 const listStyles = StyleSheet.create({
     wrapper: {
         flex: 1,
-        backgroundColor:'pink',
         maxHeight:350,
         width:'100%',
     },

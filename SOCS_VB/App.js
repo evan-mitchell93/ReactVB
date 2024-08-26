@@ -24,6 +24,7 @@ export default function App() {
 
 
   const [allRows, setAllRows] = useState(VBDB.getAllResults());
+  const [dataLoaded, setDataLoaded] = useState(false);
 
   useDrizzleStudio(VBDB.db);
 
@@ -68,8 +69,9 @@ export default function App() {
         }}
         >
         </FlatList>
-        <FileManager resultId={currentResult} />
-        <StatList resultId = {currentResult} />
+        <FileManager resultId={currentResult} setDataLoaded={setDataLoaded} />
+        {dataLoaded &&
+        <StatList resultId = {currentResult} /> }
         <Modal
           animationType='slide'
           transparent={false}
