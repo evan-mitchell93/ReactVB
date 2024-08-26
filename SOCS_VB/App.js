@@ -1,7 +1,6 @@
 import { useCallback,useState } from 'react';
-import { StyleSheet, Text, View, Image, Pressable,Modal,FlatList, Dimensions} from 'react-native';
+import { StyleSheet, Text, View, Image,FlatList, Dimensions} from 'react-native';
 import ResultCard from './components/ResultCard';
-import ResultForm from './components/ResultForm';
 import FileManager from './components/FileManager';
 import { useDrizzleStudio } from 'expo-drizzle-studio-plugin';
 import * as VBDB from './vbdb';
@@ -15,14 +14,8 @@ VBDB.createTables();
 const SOCSLOGO = require('./assets/images/logo.png');
 
 export default function App() {
-  //Modal control state
-  const [modalVisible, setModalVisible] = useState(false);
   //Currently selected match result will be passed to components
   const [currentResult, setCurrentResult] = useState(0);
-
-  const [matchData, setMatchData] = useState([{pointsplayed: 0}]);
-
-
   const [allRows, setAllRows] = useState(VBDB.getAllResults());
   const [dataLoaded, setDataLoaded] = useState(false);
 
@@ -37,9 +30,9 @@ export default function App() {
       //when viewable switches, load teamstats from that match
       const data = VBDB.getTeamStats(viewableItems[0].item.id);
       if(data!= null && data.length != 0){
-        setMatchData(data[0]);
+        setDataLoaded(true);
       } else {
-        setMatchData({pointsplayed: 0})
+        setDataLoaded(false);
       }
     }
   });
@@ -59,7 +52,7 @@ export default function App() {
         snapToAlignment={"center"}
         data={allRows}
         renderItem={({item})=>
-          <ResultCard res={item}/>
+          <ResultCard res={item} setAllRows={setAllRows}/>
         }
         keyExtractor={item => item.id}
         onViewableItemsChanged = {onViewableItemsChanged}
@@ -72,23 +65,6 @@ export default function App() {
         <FileManager resultId={currentResult} setDataLoaded={setDataLoaded} />
         {dataLoaded &&
         <StatList resultId = {currentResult} /> }
-        <Modal
-          animationType='slide'
-          transparent={false}
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible)
-          }}
-        >
-          <ResultForm setAllResults={setAllRows} setModalVis={setModalVisible} />  
-        </Modal>
-        <Pressable
-        onPress={() => {
-          setModalVisible(true);
-        }}>
-          <Text>Add Result</Text>
-        </Pressable>
-
     </View>
   );
 }

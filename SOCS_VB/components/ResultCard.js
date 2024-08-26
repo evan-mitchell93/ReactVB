@@ -1,8 +1,11 @@
-import {React,Text,View,Image,StyleSheet, Dimensions} from "react-native";
+import {React,Text,View,Modal,Image,StyleSheet,Pressable,Dimensions} from "react-native";
+import {useState} from "react";
+import ResultForm from "./ResultForm";
 
 const {width} = Dimensions.get('window');
 
 export default function ResultCard(props){
+    const [modalVisible, setModalVisible] = useState(false);
     return(
         <View style={resultStyles.content}>
             <View style={resultStyles.team_box}>
@@ -13,6 +16,22 @@ export default function ResultCard(props){
                 <Text>{props.res.opponent}</Text>
                 <Text>  {props.res.setsLost}  </Text>
             </View>
+            <Modal
+          animationType='slide'
+          transparent={false}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible)
+          }}
+        >
+          <ResultForm setAllResults={props.setAllRows} setModalVis={setModalVisible} />  
+        </Modal>
+        <Pressable
+        onPress={() => {
+          setModalVisible(true);
+        }}>
+          <Text>Add Result</Text>
+        </Pressable>
         </View>
     );
 }

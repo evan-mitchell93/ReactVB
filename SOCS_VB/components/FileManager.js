@@ -29,6 +29,7 @@ export default function FileManager(props) {
                 for(let i = 2; i <= csvData.length-2; i++){
                   insertTeamStats(csvData[i],props.resultId);
                 }
+                //allows the statlist component to be rendered
                 props.setDataLoaded(true);
               }
             }  else {
