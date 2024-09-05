@@ -33,10 +33,12 @@ export default function StatList(props) {
                     style={listStyles.picker}
                     selectedValue={selectedFilter}
                     onValueChange={(itemValue,itemIndex) => gatherData(itemValue)}
-                >
+                >   
+                    <Picker.Item label="Plus Minus" value="PlusMinus"/>
                     <Picker.Item label="Serving" value="Serving" />
+                    <Picker.Item label="Serve Recieve" value="ServeRecv" />
                     <Picker.Item label="Attacking" value="Attacking" />
-                    <Picker.Item label="ServeRecv" value="ServeRecv" />
+                    <Picker.Item label="Blocking" value="Blocking" />
                 </Picker>
                 <DataTable>
                     <DataTable.Header>

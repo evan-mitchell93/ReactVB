@@ -123,6 +123,25 @@ export function getTeamAttacking(resultId) {
   }
 }
 
+export function getTeamPMStats(resultId){
+  try {
+    const res = db.getAllSync('SELECT player,pointsplayed,plusminus FROM teamstats WHERE resultid = ?',resultId);
+    console.log("Team plus minus accessed");
+    return res;
+  } catch(error){
+    console.error("Error:",error)
+  }
+}
+
+export function getTeamBlkStats(resultId){
+  try{
+    const res = db.getAllSync('SELECT player, blk,blkerr,blkasst FROM teamstats WHERE resultid = ?',resultId);
+    console.log("Team blocking accessed");
+    return res;
+  } catch(error){
+    console.error("Error:",error);
+  }
+}
 export function getTeamDataByFilter(resultId, filter){
 
   if(filter == 'Serving'){
@@ -133,6 +152,12 @@ export function getTeamDataByFilter(resultId, filter){
   }
   else if(filter == 'ServeRecv'){
     return getTeamSRStats(resultId);
+  }
+  else if(filter == 'PlusMinus'){
+    return getTeamPMStats(resultId);
+  }
+  else if(filter =='Blocking'){
+    return getTeamBlkStats(resultId);
   }
   return null;
 }
