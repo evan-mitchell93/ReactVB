@@ -14,6 +14,7 @@ export default function ResultForm(props) {
         onChangeSetsW('0');
         onChangeSetsL('0');
         props.setModalVis(false);
+        console.log("Modal Should Close");
     }
     return(
         <SafeAreaView>

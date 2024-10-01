@@ -1,6 +1,7 @@
 import {React,Text,View,Modal,Image,StyleSheet,Pressable,Dimensions} from "react-native";
 import {useState} from "react";
 import ResultForm from "./ResultForm";
+import FileManager from "./FileManager";
 
 const {width} = Dimensions.get('window');
 
@@ -17,6 +18,13 @@ export default function ResultCard(props){
                     <Text>{props.res.opponent}</Text>
                     <Text>  {props.res.setsLost}  </Text>
                 </View>
+                <Pressable
+                    onPress={() => {
+                         setModalVisible(true);
+                    }}>
+                    <Text>Add Result</Text>
+                </Pressable>
+                <FileManager resultId={props.currentResult} setDataLoaded={props.setDataLoaded} />
             </View>
             <Modal
             animationType='slide'
@@ -28,12 +36,6 @@ export default function ResultCard(props){
             >
             <ResultForm setAllResults={props.setAllRows} setModalVis={setModalVisible} />  
             </Modal>
-            <Pressable
-            onPress={() => {
-            setModalVisible(true);
-            }}>
-            <Text>Add Result</Text>
-            </Pressable>
         </View>
     );
 }
@@ -42,6 +44,8 @@ const resultStyles = StyleSheet.create({
     contentVertical:{
         flex:1,
         flexDirection: 'column',
+        marginTop: 20,
+        height:200,
 
     },
     
@@ -65,7 +69,6 @@ const resultStyles = StyleSheet.create({
     team_box: {
         flex: 1, 
         flexDirection: 'column',
-        alignItems: 'center',
         justifyContent: 'center',
     }
 })

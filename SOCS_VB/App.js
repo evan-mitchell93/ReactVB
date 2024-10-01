@@ -52,7 +52,7 @@ export default function App() {
         snapToAlignment={"center"}
         data={allRows}
         renderItem={({item})=>
-          <ResultCard res={item} setAllRows={setAllRows}/>
+          <ResultCard res={item} setAllRows={setAllRows} currentResult={currentResult} setDataLoaded={setDataLoaded} />
         }
         keyExtractor={item => item.id}
         onViewableItemsChanged = {onViewableItemsChanged}
@@ -62,7 +62,6 @@ export default function App() {
         }}
         >
         </FlatList>
-        <FileManager resultId={currentResult} setDataLoaded={setDataLoaded} />
         {dataLoaded &&
         <StatList resultId = {currentResult} /> }
     </View>
@@ -83,6 +82,10 @@ const styles = StyleSheet.create({
     alignItems:'center',
     marginTop: 1,
     marginBottom: 5,
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top:30
   },
 
 });
