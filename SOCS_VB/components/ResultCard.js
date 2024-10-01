@@ -1,16 +1,15 @@
-import {React,Text,View,Modal,Image,StyleSheet,Pressable,Dimensions} from "react-native";
+import {React,Text,View,Modal,Image,StyleSheet,Dimensions} from "react-native";
 import {useState} from "react";
-import ResultForm from "./ResultForm";
 import FileManager from "./FileManager";
 
 const {width} = Dimensions.get('window');
 
 export default function ResultCard(props){
-    const [modalVisible, setModalVisible] = useState(false);
+
     return(
         <View style={resultStyles.contentVertical}>
             <View style={resultStyles.contentHorizontal}>
-                <View style={resultStyles.team_box}>
+                <View style={resultStyles.teamBox}>
                     <Text>SOCS</Text>
                     <Text>  {props.res.setsWon}  </Text>
                 </View>
@@ -18,24 +17,8 @@ export default function ResultCard(props){
                     <Text>{props.res.opponent}</Text>
                     <Text>  {props.res.setsLost}  </Text>
                 </View>
-                <Pressable
-                    onPress={() => {
-                         setModalVisible(true);
-                    }}>
-                    <Text>Add Result</Text>
-                </Pressable>
                 <FileManager resultId={props.currentResult} setDataLoaded={props.setDataLoaded} />
             </View>
-            <Modal
-            animationType='slide'
-            transparent={false}
-            visible={modalVisible}
-            onRequestClose={() => {
-                setModalVisible(!modalVisible)
-            }}
-            >
-            <ResultForm setAllResults={props.setAllRows} setModalVis={setModalVisible} />  
-            </Modal>
         </View>
     );
 }
@@ -66,7 +49,7 @@ const resultStyles = StyleSheet.create({
         justifyContent: 'center',
     },
 
-    team_box: {
+    teamBox: {
         flex: 1, 
         flexDirection: 'column',
         justifyContent: 'center',

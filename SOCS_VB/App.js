@@ -1,7 +1,7 @@
 import { useCallback,useState } from 'react';
-import { StyleSheet, Text, View, Image,FlatList, Dimensions} from 'react-native';
+import { StyleSheet, Text,Pressable, View, Image,FlatList, Dimensions,Modal} from 'react-native';
 import ResultCard from './components/ResultCard';
-import FileManager from './components/FileManager';
+import ResultForm from './components/ResultForm';
 import { useDrizzleStudio } from 'expo-drizzle-studio-plugin';
 import * as VBDB from './vbdb';
 import StatList from './components/StatList';
@@ -18,6 +18,7 @@ export default function App() {
   const [currentResult, setCurrentResult] = useState(0);
   const [allRows, setAllRows] = useState(VBDB.getAllResults());
   const [dataLoaded, setDataLoaded] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useDrizzleStudio(VBDB.db);
 
@@ -42,6 +43,12 @@ export default function App() {
         <View style={styles.logo} >
           <Image source={SOCSLOGO}/>
         </View>
+        <Pressable style={styles.addButton}
+          onPress={() => {
+            setModalVisible(true);
+          }}>
+          <Text style={{textAlign:'center',fontWeight:'bold',}}>+</Text>
+        </Pressable>
         <FlatList
         style={styles.flist}
         maxHeight={125}
@@ -62,6 +69,18 @@ export default function App() {
         }}
         >
         </FlatList>
+        <Modal
+            animationType='slide'
+            transparent={false}
+            visible={modalVisible}
+            onRequestClose={() => {
+                setModalVisible(!modalVisible)
+            }}
+            >
+
+            <ResultForm setAllResults={setAllRows} setModalVis={setModalVisible} />  
+
+            </Modal>
         {dataLoaded &&
         <StatList resultId = {currentResult} /> }
     </View>
@@ -70,7 +89,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 3,
     backgroundColor: '#fff',
     minWidth: 50,
     justifyContent:'center',
@@ -85,7 +104,24 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     right: 0,
-    top:30
+    top:45
   },
+
+  addButton: {
+    borderRadius: 50,
+    backgroundColor: 'goldenrod',
+    height:70,
+    width:70,
+    justifyContent:'center',
+    position:'absolute',
+    top:225,
+    right: 55
+  },
+
+  flist:{
+    position:'absolute',
+    bottom:75,
+
+  }
 
 });

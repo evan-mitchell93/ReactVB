@@ -76,11 +76,6 @@ const listStyles = StyleSheet.create({
         flex: 1,
         backgroundColor:"green",
     },
-    uploadBtn: {
-        backgroundColor: 'navy',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
 
     tab: {
         color:"white",
@@ -90,7 +85,5 @@ const listStyles = StyleSheet.create({
     buttonText: {
         color: 'white',
         fontSize: '20',
-    },
-    picker: {
     },
 });

@@ -54,8 +54,14 @@ export default function ResultForm(props) {
                     style={formstyles.addButton}
                     onPress={submitResult}
                 >
-                    <Text style={formstyles.addButtonText}>Add Result</Text>
+                    <Text style={formstyles.buttonText}>Add Result</Text>
                 </TouchableOpacity>
+                <TouchableOpacity
+                    style={formstyles.closeButton}
+                    onPress={()=> props.setModalVis(false)}
+                    >
+                        <Text style={formstyles.buttonText}>Exit</Text>
+                    </TouchableOpacity>
             </View>
         </SafeAreaView>
     )
@@ -84,9 +90,17 @@ const formstyles = StyleSheet.create({
         margin: 5,
     },
 
-    addButtonText: {
+    buttonText: {
         color: '#FFFFFF',
         fontSize: 20,
         textAlign: 'center',
+    },
+
+    closeButton: {
+        borderWidth:1,
+        borderColor: '#007BEE',
+        backgroundColor: '#AF312A',
+        padding: 15,
+        margin: 5
     }
 })
