@@ -1,11 +1,9 @@
 import {React, View, Text, ScrollView, StyleSheet,Pressable} from "react-native";
 import {getTeamDataByFilter} from '../vbdb';
-import * as DocPicker from 'expo-document-picker';
-import Papa from 'papaparse';
-import * as FS from 'expo-file-system';
 import {Picker} from '@react-native-picker/picker';
 import { useState, useEffect } from "react";
 import { DataTable } from "react-native-paper";
+
 
 export default function StatList(props) {
     //State for keeping track of filter

@@ -1,6 +1,7 @@
 import {React,Text,View,Modal,Image,StyleSheet,Dimensions} from "react-native";
 import {useState} from "react";
 import FileManager from "./FileManager";
+import StatList from "./StatList";
 
 const {width} = Dimensions.get('window');
 
@@ -17,8 +18,9 @@ export default function ResultCard(props){
                     <Text>{props.res.opponent}</Text>
                     <Text>  {props.res.setsLost}  </Text>
                 </View>
-                <FileManager resultId={props.currentResult} setDataLoaded={props.setDataLoaded} />
             </View>
+            <FileManager resultId={props.currentResult} setDataLoaded={props.setDataLoaded} />
+            <StatList resultId={props.currentResult} />
         </View>
     );
 }
@@ -28,7 +30,7 @@ const resultStyles = StyleSheet.create({
         flex:1,
         flexDirection: 'column',
         marginTop: 20,
-        height:200,
+        height:'auto',
 
     },
     

@@ -51,7 +51,8 @@ export default function App() {
         </Pressable>
         <FlatList
         style={styles.flist}
-        maxHeight={125}
+        position={"absolute"}
+        top={300}
         horizontal={true}
         pagingEnabled={true}
         decelerationRate={"fast"}
@@ -81,8 +82,7 @@ export default function App() {
             <ResultForm setAllResults={setAllRows} setModalVis={setModalVisible} />  
 
             </Modal>
-        {dataLoaded &&
-        <StatList resultId = {currentResult} /> }
+
     </View>
   );
 }
@@ -118,10 +118,5 @@ const styles = StyleSheet.create({
     right: 55
   },
 
-  flist:{
-    position:'absolute',
-    bottom:75,
-
-  }
 
 });
