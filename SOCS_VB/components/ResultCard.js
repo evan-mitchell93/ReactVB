@@ -30,7 +30,14 @@ const resultStyles = StyleSheet.create({
         flex:1,
         flexDirection: 'column',
         marginTop: 20,
-        height:'auto',
+        height: '95%',
+        shadowColor: 'black',
+        shadowOpacity: 1,
+        elevation: 3,
+        zIndex: 999,
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
 
     },
     
@@ -41,14 +48,7 @@ const resultStyles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 0,
         width: width,
-        height: '95%',
-        shadowColor: 'black',
-        shadowOpacity: 1,
-        elevation: 3,
-        zIndex: 999,
-        borderRadius: 10,
-        alignItems: 'center',
-        justifyContent: 'center',
+
     },
 
     teamBox: {
