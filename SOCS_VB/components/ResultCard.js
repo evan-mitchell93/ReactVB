@@ -20,7 +20,7 @@ export default function ResultCard(props){
                 </View>
             </View>
             <FileManager resultId={props.currentResult} setDataLoaded={props.setDataLoaded} />
-            <StatList resultId={props.currentResult} />
+            {props.loaded && <StatList resultId={props.currentResult} /> }
         </View>
     );
 }

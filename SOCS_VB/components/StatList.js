@@ -1,7 +1,7 @@
-import {React, View, Text, ScrollView, StyleSheet,Pressable} from "react-native";
+import {React,ScrollView, StyleSheet,Pressable} from "react-native";
 import {getTeamDataByFilter} from '../vbdb';
 import {Picker} from '@react-native-picker/picker';
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { DataTable } from "react-native-paper";
 
 
@@ -10,21 +10,13 @@ export default function StatList(props) {
     //Will display different stats for all players and
     //Team totals for selected match
     const [selectedFilter, setFilter] = useState('Serving');
-    const [playerData,setPlayerData] = useState([{}]);
     const [teamStats, setTeamStats] = useState([{"default": 0,"data":1}]);
-    const [loaded, setLoaded] = useState(false);
 
-    useEffect (() => {
-        setLoaded(true);
-    }, [teamStats]);
 
     const gatherData = (filter) => {
         setFilter(filter);
         setTeamStats(getTeamDataByFilter(props.resultId,filter));
-        setLoaded(false);
     }
-
-    if(loaded){
         return (
             <ScrollView style={listStyles.wrapper}>
                 <Picker
@@ -53,14 +45,7 @@ export default function StatList(props) {
                     ))}
                 </DataTable>
             </ScrollView>
-        );}
-    else {
-        return (
-            <View style={listStyles.wrapper1}>
-                <Text>Loading Data</Text>
-            </View>
-        )
-    }
+        );
 }
 
 const listStyles = StyleSheet.create({

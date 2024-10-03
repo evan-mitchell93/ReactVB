@@ -4,7 +4,6 @@ import ResultCard from './components/ResultCard';
 import ResultForm from './components/ResultForm';
 import { useDrizzleStudio } from 'expo-drizzle-studio-plugin';
 import * as VBDB from './vbdb';
-import StatList from './components/StatList';
 
 const {width} = Dimensions.get('window');
 //create initial db table and insert two rowss
@@ -60,7 +59,7 @@ export default function App() {
         snapToAlignment={"center"}
         data={allRows}
         renderItem={({item})=>
-          <ResultCard res={item} setAllRows={setAllRows} currentResult={currentResult} setDataLoaded={setDataLoaded} />
+          <ResultCard res={item} setAllRows={setAllRows} currentResult={currentResult} loaded={dataLoaded} />
         }
         keyExtractor={item => item.id}
         onViewableItemsChanged = {onViewableItemsChanged}
